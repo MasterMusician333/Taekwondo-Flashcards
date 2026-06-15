@@ -10,105 +10,55 @@
   <link rel="apple-touch-icon" href="icon-192.png" />
 </head>
 <body>
-<header class="app-header">
-  <h1>Taekwondo Flashcards</h1>
-  <p>Personal/studio flashcards for Korean terminology and belt testing.</p>
+<header class="topbar">
+  <button id="menuBtn" class="menu-btn">☰</button>
+  <div>
+    <h1>TKD Flashcards</h1>
+    <p id="statusLine">No cards saved yet</p>
+  </div>
 </header>
 
+<div id="drawerShade" class="drawer-shade"></div>
+
+<aside id="drawer" class="drawer">
+  <h2>Study Menu</h2>
+
+  <label for="studyFilter">Rank / Section</label>
+  <select id="studyFilter"></select>
+
+  <label for="cardPicker">Flashcard</label>
+  <select id="cardPicker"></select>
+
+  <label for="startSide">Start Side</label>
+  <select id="startSide">
+    <option value="korean">Korean → English</option>
+    <option value="english">English → Korean</option>
+    <option value="random">Random side first</option>
+  </select>
+
+  <label for="studyOrder">Order</label>
+  <select id="studyOrder">
+    <option value="sequential">Sequential</option>
+    <option value="random">Random</option>
+  </select>
+
+  <button id="addScreenBtn">Add / Edit Cards</button>
+  <button id="studyScreenBtn" class="secondary">Study Screen</button>
+  <button id="exportBtn" class="secondary">Export Backup</button>
+  <button id="importBtn" class="secondary">Import Backup</button>
+  <input id="importFile" type="file" accept="application/json" hidden />
+</aside>
+
 <main>
-  <section class="panel">
-    <h2>Add / Edit Card</h2>
-    <input id="editId" type="hidden" />
-
-    <label for="korean">Korean term</label>
-    <input id="korean" placeholder="Example: Charyot" />
-
-    <label for="english">English meaning</label>
-    <input id="english" placeholder="Example: Attention" />
-
-    <label for="pronunciation">Pronunciation</label>
-    <input id="pronunciation" placeholder="Optional" />
-
-    <label for="notes">Notes</label>
-    <textarea id="notes" placeholder="Optional notes"></textarea>
-
-    <label for="category">Category</label>
-    <input id="category" placeholder="Commands, Kicks, Blocks, Forms, Numbers..." />
-
-    <label for="rank">Rank / Belt Section</label>
-    <select id="rank"></select>
-
-    <details open>
-      <summary>Belt appearance</summary>
-
-      <label for="beltColor">Main belt color</label>
-      <select id="beltColor">
-        <option value="white">White</option>
-        <option value="yellow">Yellow</option>
-        <option value="green">Green</option>
-        <option value="blue">Blue</option>
-        <option value="brown">Brown</option>
-        <option value="red">Red</option>
-        <option value="black">Black</option>
-      </select>
-
-      <label for="stripeColor">Horizontal center stripe</label>
-      <select id="stripeColor">
-        <option value="">None</option>
-        <option value="white">White</option>
-        <option value="yellow">Yellow</option>
-        <option value="green">Green</option>
-        <option value="blue">Blue</option>
-        <option value="brown">Brown</option>
-        <option value="red">Red</option>
-        <option value="black">Black</option>
-      </select>
-
-      <label for="tips">Tips, comma separated</label>
-      <input id="tips" placeholder="Example: yellow,yellow,green,green" />
-      <div id="beltPreview" class="preview-box"></div>
-    </details>
-
-    <div class="button-row">
-      <button id="saveBtn">Save Card</button>
-      <button id="clearBtn" class="secondary">Clear</button>
-    </div>
-
-    <p id="saveMessage" class="save-message"></p>
-  </section>
-
-  <section class="panel">
-    <h2>Study</h2>
-
-    <label for="studyFilter">Study section</label>
-    <select id="studyFilter"></select>
-
-    <label for="startSide">Start side</label>
-    <select id="startSide">
-      <option value="korean">Korean → English</option>
-      <option value="english">English → Korean</option>
-      <option value="random">Random side first</option>
-    </select>
-
-    <label for="studyOrder">Order</label>
-    <select id="studyOrder">
-      <option value="sequential">Sequential</option>
-      <option value="random">Random</option>
-    </select>
-
-    <label for="cardPicker">Choose individual card</label>
-    <select id="cardPicker"></select>
-
-    <div class="study-info">
-      <span id="counter">No cards yet</span>
-    </div>
+  <section id="studyScreen" class="screen active">
+    <div class="counter" id="counter">No cards yet</div>
 
     <div class="flashcard-wrap">
       <div id="flashcard" class="flashcard" tabindex="0">
         <div class="flashcard-inner">
           <div class="flashcard-face flashcard-front">
             <div id="frontBelt"></div>
-            <div class="card-word" id="frontText"></div>
+            <div class="card-word" id="frontText">Add a card to begin</div>
             <div class="hint">Tap to flip</div>
           </div>
           <div class="flashcard-face flashcard-back">
@@ -132,15 +82,93 @@
     </div>
   </section>
 
-  <section class="panel saved-panel">
-    <h2>Saved Cards <span id="cardCountBadge">0</span></h2>
-    <p class="small-note">Cards you save appear below. They are stored on this device/browser unless you export a backup.</p>
-    <div class="button-row">
-      <button id="exportBtn" class="secondary">Export Backup</button>
-      <button id="importBtn" class="secondary">Import Backup</button>
+  <section id="editScreen" class="screen">
+    <div class="panel">
+      <h2>Add / Edit Card</h2>
+      <p class="note">Cards are saved on this device/browser. After saving, they appear in the Saved Cards list below and in the side menu.</p>
+
+      <input id="editId" type="hidden" />
+
+      <label for="korean">Korean term</label>
+      <input id="korean" placeholder="Example: Charyot" />
+
+      <label for="english">English meaning</label>
+      <input id="english" placeholder="Example: Attention" />
+
+      <label for="pronunciation">Pronunciation</label>
+      <input id="pronunciation" placeholder="Optional" />
+
+      <label for="notes">Notes</label>
+      <textarea id="notes" placeholder="Optional notes"></textarea>
+
+      <label for="category">Category</label>
+      <input id="category" placeholder="Commands, Kicks, Blocks, Forms, Numbers..." />
+
+      <details open>
+        <summary>Custom Belt Appearance / Rank Details</summary>
+
+        <label for="rankText">Rank name / belt section</label>
+        <input id="rankText" list="rankOptions" placeholder="Example: 1st Dan, Yellow / Green Tip, Custom" />
+        <datalist id="rankOptions"></datalist>
+
+        <label for="danDesignation">Dan designation</label>
+        <select id="danDesignation">
+          <option value="">None / color belt</option>
+          <option>1st Dan</option>
+          <option>2nd Dan</option>
+          <option>3rd Dan</option>
+          <option>4th Dan</option>
+          <option>5th Dan</option>
+          <option>6th Dan</option>
+          <option>7th Dan</option>
+          <option>8th Dan</option>
+          <option>9th Dan</option>
+          <option>10th Dan</option>
+        </select>
+
+        <label for="beltColor">Main belt color</label>
+        <select id="beltColor">
+          <option value="white">White</option>
+          <option value="yellow">Yellow</option>
+          <option value="green">Green</option>
+          <option value="blue">Blue</option>
+          <option value="brown">Brown</option>
+          <option value="red">Red</option>
+          <option value="black">Black</option>
+        </select>
+
+        <label for="stripeColor">Horizontal center stripe</label>
+        <select id="stripeColor">
+          <option value="">None</option>
+          <option value="white">White</option>
+          <option value="yellow">Yellow</option>
+          <option value="green">Green</option>
+          <option value="blue">Blue</option>
+          <option value="brown">Brown</option>
+          <option value="red">Red</option>
+          <option value="black">Black</option>
+        </select>
+
+        <label for="tips">Tips, comma separated</label>
+        <input id="tips" placeholder="Example: yellow,yellow,green,green" />
+
+        <button id="applyDanBtn" type="button" class="secondary">Auto-fill selected Dan belt</button>
+
+        <div id="beltPreview" class="preview-box"></div>
+      </details>
+
+      <div class="button-row">
+        <button id="saveBtn">Save Card</button>
+        <button id="clearBtn" class="secondary">Clear</button>
+      </div>
+
+      <p id="saveMessage" class="save-message"></p>
     </div>
-    <input id="importFile" type="file" accept="application/json" hidden />
-    <div id="cardList"></div>
+
+    <div class="panel">
+      <h2>Saved Cards <span id="cardCountBadge">0</span></h2>
+      <div id="cardList"></div>
+    </div>
   </section>
 </main>
 
