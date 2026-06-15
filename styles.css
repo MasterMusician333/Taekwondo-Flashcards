@@ -1,0 +1,8 @@
+
+body{font-family:Arial;margin:15px;background:#f5f5f5}
+.panel{background:white;padding:15px;border-radius:12px;margin-bottom:15px}
+input,select,button{width:100%;padding:10px;margin:4px 0}
+#card{margin-top:10px;padding:15px;border:1px solid #ccc;border-radius:10px}
+.belt{height:36px;border-radius:6px;position:relative;margin-bottom:10px}
+.stripe{position:absolute;top:14px;left:0;right:0;height:8px}
+.tip{position:absolute;top:0;width:10px;height:36px}

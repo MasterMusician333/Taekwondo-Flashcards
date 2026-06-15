@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html><head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>TKD Flashcards</title>
+<link rel="manifest" href="manifest.json">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<h1>Taekwondo Flashcards</h1>
+
+<div class="panel">
+<h3>Create Card</h3>
+<input id="korean" placeholder="Korean term">
+<input id="english" placeholder="English meaning">
+<input id="pronunciation" placeholder="Pronunciation">
+<input id="category" placeholder="Category">
+<input id="dan" placeholder="Rank / Dan">
+<select id="beltColor">
+<option>white</option><option>yellow</option><option>green</option>
+<option>blue</option><option>brown</option><option>red</option><option>black</option>
+</select>
+<select id="stripeColor">
+<option value="">No center stripe</option>
+<option>yellow</option><option>black</option><option>white</option>
+</select>
+<input id="tips" placeholder="Tip colors (comma separated)">
+<button onclick="saveCard()">Save Card</button>
+</div>
+
+<div class="panel">
+<h3>Study</h3>
+<button onclick="randomCard()">Random Card</button>
+<div id="card"></div>
+</div>
+
+<script src="app.js"></script>
+</body></html>
