@@ -6,44 +6,27 @@
   <title>Taekwondo Flashcards</title>
   <link rel="manifest" href="manifest.json" />
   <link rel="stylesheet" href="styles.css" />
-  <meta name="theme-color" content="#111111" />
+  <meta name="theme-color" content="#18212f" />
   <link rel="apple-touch-icon" href="icon-192.png" />
 </head>
 <body>
 <header class="topbar">
-  <button id="menuBtn" class="menu-btn">☰</button>
+  <button id="menuBtn" class="menu-btn" aria-label="Open menu">☰</button>
   <div>
-    <h1>TKD Flashcards</h1>
-    <p id="statusLine">No cards saved yet</p>
+    <h1>Taekwondo Flashcards</h1>
+    <p id="statusLine">Personal studio study app</p>
   </div>
 </header>
 
 <div id="drawerShade" class="drawer-shade"></div>
 
 <aside id="drawer" class="drawer">
-  <h2>Study Menu</h2>
-
-  <label for="studyFilter">Rank / Section</label>
-  <select id="studyFilter"></select>
-
-  <label for="cardPicker">Flashcard</label>
-  <select id="cardPicker"></select>
-
-  <label for="startSide">Start Side</label>
-  <select id="startSide">
-    <option value="korean">Korean → English</option>
-    <option value="english">English → Korean</option>
-    <option value="random">Random side first</option>
-  </select>
-
-  <label for="studyOrder">Order</label>
-  <select id="studyOrder">
-    <option value="sequential">Sequential</option>
-    <option value="random">Random</option>
-  </select>
-
-  <button id="addScreenBtn">Add / Edit Cards</button>
-  <button id="studyScreenBtn" class="secondary">Study Screen</button>
+  <h2>Menu</h2>
+  <button class="nav-btn" data-screen="study">📚 Study Cards</button>
+  <button class="nav-btn" data-screen="add">➕ Add / Edit Card</button>
+  <button class="nav-btn" data-screen="saved">💾 Saved Cards</button>
+  <button class="nav-btn" data-screen="stats">📊 Statistics</button>
+  <hr />
   <button id="exportBtn" class="secondary">Export Backup</button>
   <button id="importBtn" class="secondary">Import Backup</button>
   <input id="importFile" type="file" accept="application/json" hidden />
@@ -51,6 +34,37 @@
 
 <main>
   <section id="studyScreen" class="screen active">
+    <div class="panel hero-panel">
+      <h2>Study Cards</h2>
+
+      <label for="studyDanFilter">Dan designation</label>
+      <select id="studyDanFilter"></select>
+
+      <label for="studyBeltFilter">Belt / tip section</label>
+      <select id="studyBeltFilter"></select>
+
+      <label for="cardPicker">Choose individual flashcard</label>
+      <select id="cardPicker"></select>
+
+      <div class="two-col">
+        <div>
+          <label for="startSide">Start side</label>
+          <select id="startSide">
+            <option value="korean">Korean → English</option>
+            <option value="english">English → Korean</option>
+            <option value="random">Random side first</option>
+          </select>
+        </div>
+        <div>
+          <label for="studyOrder">Order</label>
+          <select id="studyOrder">
+            <option value="sequential">Sequential</option>
+            <option value="random">Random</option>
+          </select>
+        </div>
+      </div>
+    </div>
+
     <div class="counter" id="counter">No cards yet</div>
 
     <div class="flashcard-wrap">
@@ -82,10 +96,10 @@
     </div>
   </section>
 
-  <section id="editScreen" class="screen">
+  <section id="addScreen" class="screen">
     <div class="panel">
       <h2>Add / Edit Card</h2>
-      <p class="note">Cards are saved on this device/browser. After saving, they appear in the Saved Cards list below and in the side menu.</p>
+      <p class="note">Dan and belt/tip section are separate, so each Dan can have its own belt/tip cards.</p>
 
       <input id="editId" type="hidden" />
 
@@ -107,24 +121,12 @@
       <details open>
         <summary>Custom Belt Appearance / Rank Details</summary>
 
-        <label for="rankText">Rank name / belt section</label>
-        <input id="rankText" list="rankOptions" placeholder="Example: 1st Dan, Yellow / Green Tip, Custom" />
-        <datalist id="rankOptions"></datalist>
-
         <label for="danDesignation">Dan designation</label>
-        <select id="danDesignation">
-          <option value="">None / color belt</option>
-          <option>1st Dan</option>
-          <option>2nd Dan</option>
-          <option>3rd Dan</option>
-          <option>4th Dan</option>
-          <option>5th Dan</option>
-          <option>6th Dan</option>
-          <option>7th Dan</option>
-          <option>8th Dan</option>
-          <option>9th Dan</option>
-          <option>10th Dan</option>
-        </select>
+        <select id="danDesignation"></select>
+
+        <label for="beltSection">Belt / tip section</label>
+        <input id="beltSection" list="beltSectionOptions" placeholder="Example: Green / Blue Tip" />
+        <datalist id="beltSectionOptions"></datalist>
 
         <label for="beltColor">Main belt color</label>
         <select id="beltColor">
@@ -152,7 +154,10 @@
         <label for="tips">Tips, comma separated</label>
         <input id="tips" placeholder="Example: yellow,yellow,green,green" />
 
-        <button id="applyDanBtn" type="button" class="secondary">Auto-fill selected Dan belt</button>
+        <div class="button-row">
+          <button id="applyDanBtn" type="button" class="secondary">Auto-fill Dan belt</button>
+          <button id="applyBeltBtn" type="button" class="secondary">Auto-fill belt/tip</button>
+        </div>
 
         <div id="beltPreview" class="preview-box"></div>
       </details>
@@ -164,10 +169,21 @@
 
       <p id="saveMessage" class="save-message"></p>
     </div>
+  </section>
 
+  <section id="savedScreen" class="screen">
     <div class="panel">
       <h2>Saved Cards <span id="cardCountBadge">0</span></h2>
-      <div id="cardList"></div>
+      <p class="note">Grouped by Dan first, then belt/tip section.</p>
+      <div id="groupedCardList"></div>
+    </div>
+  </section>
+
+  <section id="statsScreen" class="screen">
+    <div class="panel">
+      <h2>Statistics</h2>
+      <p class="note">Built from your Know It and Need Practice buttons.</p>
+      <div id="statsContent"></div>
     </div>
   </section>
 </main>

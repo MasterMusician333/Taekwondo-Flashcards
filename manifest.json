@@ -1,12 +1,12 @@
 {
   "name": "Taekwondo Flashcards",
   "short_name": "TKD Cards",
-  "description": "Taekwondo Korean terminology flashcards by rank and Dan.",
+  "description": "Taekwondo Korean terminology flashcards by Dan and belt section.",
   "start_url": "./",
   "scope": "./",
   "display": "standalone",
-  "background_color": "#f1efe8",
-  "theme_color": "#111111",
+  "background_color": "#f7efe0",
+  "theme_color": "#18212f",
   "icons": [
     {
       "src": "icon-192.png",
