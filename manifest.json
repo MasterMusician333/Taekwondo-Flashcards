@@ -1,8 +1,22 @@
 {
-"name":"Taekwondo Flashcards",
-"short_name":"TKD Cards",
-"display":"standalone",
-"start_url":"./",
-"background_color":"#ffffff",
-"theme_color":"#000000"
+  "name": "Taekwondo Flashcards",
+  "short_name": "TKD Cards",
+  "description": "Taekwondo Korean terminology flashcards by rank and Dan.",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#f1efe8",
+  "theme_color": "#111111",
+  "icons": [
+    {
+      "src": "icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
 }
