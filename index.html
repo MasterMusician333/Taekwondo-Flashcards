@@ -1,54 +1,49 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"/>
   <title>Taekwondo Flashcards</title>
-  <link rel="manifest" href="manifest.json" />
-  <link rel="stylesheet" href="styles.css" />
-  <meta name="theme-color" content="#18212f" />
-  <link rel="apple-touch-icon" href="icon-192.png" />
+  <link rel="manifest" href="manifest.json"/>
+  <link rel="stylesheet" href="styles.css"/>
+  <meta name="theme-color" content="#172033"/>
+  <link rel="apple-touch-icon" href="icon-192.png"/>
 </head>
 <body>
 <header class="topbar">
-  <button id="menuBtn" class="menu-btn" aria-label="Open menu">☰</button>
+  <button id="menuBtn" class="menu-btn">☰</button>
   <div>
     <h1>Taekwondo Flashcards</h1>
-    <p id="statusLine">Personal studio study app</p>
+    <p id="statusLine">📚 Study • ➕ Add • 💾 Saved • 📊 Stats</p>
   </div>
 </header>
 
 <div id="drawerShade" class="drawer-shade"></div>
-
 <aside id="drawer" class="drawer">
-  <h2>Menu</h2>
+  <h2>Navigation</h2>
   <button class="nav-btn" data-screen="study">📚 Study Cards</button>
   <button class="nav-btn" data-screen="add">➕ Add / Edit Card</button>
   <button class="nav-btn" data-screen="saved">💾 Saved Cards</button>
   <button class="nav-btn" data-screen="stats">📊 Statistics</button>
-  <hr />
-  <button id="exportBtn" class="secondary">Export Backup</button>
-  <button id="importBtn" class="secondary">Import Backup</button>
-  <input id="importFile" type="file" accept="application/json" hidden />
+  <hr/>
+  <button id="exportBtn" class="secondary">⬇️ Export Backup</button>
+  <button id="importBtn" class="secondary">⬆️ Import Backup</button>
+  <input id="importFile" type="file" accept="application/json" hidden/>
 </aside>
 
 <main>
   <section id="studyScreen" class="screen active">
-    <div class="panel hero-panel">
-      <h2>Study Cards</h2>
-
-      <label for="studyDanFilter">Dan designation</label>
+    <div class="panel">
+      <h2>📚 Study Cards</h2>
+      <label>Dan level</label>
       <select id="studyDanFilter"></select>
-
-      <label for="studyBeltFilter">Belt / tip section</label>
-      <select id="studyBeltFilter"></select>
-
-      <label for="cardPicker">Choose individual flashcard</label>
+      <label>Belt / tip stage</label>
+      <select id="studyStageFilter"></select>
+      <label>Individual card</label>
       <select id="cardPicker"></select>
-
       <div class="two-col">
         <div>
-          <label for="startSide">Start side</label>
+          <label>Start side</label>
           <select id="startSide">
             <option value="korean">Korean → English</option>
             <option value="english">English → Korean</option>
@@ -56,7 +51,7 @@
           </select>
         </div>
         <div>
-          <label for="studyOrder">Order</label>
+          <label>Order</label>
           <select id="studyOrder">
             <option value="sequential">Sequential</option>
             <option value="random">Random</option>
@@ -66,7 +61,6 @@
     </div>
 
     <div class="counter" id="counter">No cards yet</div>
-
     <div class="flashcard-wrap">
       <div id="flashcard" class="flashcard" tabindex="0">
         <div class="flashcard-inner">
@@ -83,13 +77,11 @@
         </div>
       </div>
     </div>
-
     <div class="button-row nav-row">
       <button id="prevBtn">◀ Previous</button>
       <button id="flipBtn" class="secondary">Flip</button>
       <button id="nextBtn">Next ▶</button>
     </div>
-
     <div class="button-row">
       <button id="knowBtn" class="success">Know It</button>
       <button id="practiceBtn" class="warning">Need Practice</button>
@@ -98,91 +90,45 @@
 
   <section id="addScreen" class="screen">
     <div class="panel">
-      <h2>Add / Edit Card</h2>
-      <p class="note">Dan and belt/tip section are separate, so each Dan can have its own belt/tip cards.</p>
-
-      <input id="editId" type="hidden" />
-
-      <label for="korean">Korean term</label>
-      <input id="korean" placeholder="Example: Charyot" />
-
-      <label for="english">English meaning</label>
-      <input id="english" placeholder="Example: Attention" />
-
-      <label for="pronunciation">Pronunciation</label>
-      <input id="pronunciation" placeholder="Optional" />
-
-      <label for="notes">Notes</label>
-      <textarea id="notes" placeholder="Optional notes"></textarea>
-
-      <label for="category">Category</label>
-      <input id="category" placeholder="Commands, Kicks, Blocks, Forms, Numbers..." />
+      <h2>➕ Add / Edit Card</h2>
+      <p class="note">Choose a Dan level, then choose the belt/tip stage inside that Dan.</p>
+      <input id="editId" type="hidden"/>
+      <label>Korean term</label><input id="korean" placeholder="Example: Charyot"/>
+      <label>English meaning</label><input id="english" placeholder="Example: Attention"/>
+      <label>Pronunciation</label><input id="pronunciation" placeholder="Optional"/>
+      <label>Notes</label><textarea id="notes" placeholder="Optional notes"></textarea>
+      <label>Category</label><input id="category" placeholder="Commands, Kicks, Blocks, Forms, Numbers..."/>
 
       <details open>
-        <summary>Custom Belt Appearance / Rank Details</summary>
-
-        <label for="danDesignation">Dan designation</label>
-        <select id="danDesignation"></select>
-
-        <label for="beltSection">Belt / tip section</label>
-        <input id="beltSection" list="beltSectionOptions" placeholder="Example: Green / Blue Tip" />
-        <datalist id="beltSectionOptions"></datalist>
-
-        <label for="beltColor">Main belt color</label>
-        <select id="beltColor">
-          <option value="white">White</option>
-          <option value="yellow">Yellow</option>
-          <option value="green">Green</option>
-          <option value="blue">Blue</option>
-          <option value="brown">Brown</option>
-          <option value="red">Red</option>
-          <option value="black">Black</option>
-        </select>
-
-        <label for="stripeColor">Horizontal center stripe</label>
-        <select id="stripeColor">
-          <option value="">None</option>
-          <option value="white">White</option>
-          <option value="yellow">Yellow</option>
-          <option value="green">Green</option>
-          <option value="blue">Blue</option>
-          <option value="brown">Brown</option>
-          <option value="red">Red</option>
-          <option value="black">Black</option>
-        </select>
-
-        <label for="tips">Tips, comma separated</label>
-        <input id="tips" placeholder="Example: yellow,yellow,green,green" />
-
-        <div class="button-row">
-          <button id="applyDanBtn" type="button" class="secondary">Auto-fill Dan belt</button>
-          <button id="applyBeltBtn" type="button" class="secondary">Auto-fill belt/tip</button>
-        </div>
-
+        <summary>🥋 Rank Hierarchy / Belt Appearance</summary>
+        <label>Dan level</label>
+        <select id="danLevel"></select>
+        <label>Belt / tip stage within that Dan</label>
+        <select id="stage"></select>
         <div id="beltPreview" class="preview-box"></div>
+        <p class="note" id="rankHelp"></p>
       </details>
 
       <div class="button-row">
         <button id="saveBtn">Save Card</button>
         <button id="clearBtn" class="secondary">Clear</button>
       </div>
-
       <p id="saveMessage" class="save-message"></p>
     </div>
   </section>
 
   <section id="savedScreen" class="screen">
     <div class="panel">
-      <h2>Saved Cards <span id="cardCountBadge">0</span></h2>
-      <p class="note">Grouped by Dan first, then belt/tip section.</p>
+      <h2>💾 Saved Cards <span id="cardCountBadge">0</span></h2>
+      <p class="note">Grouped by Dan first, then belt/tip stage.</p>
       <div id="groupedCardList"></div>
     </div>
   </section>
 
   <section id="statsScreen" class="screen">
     <div class="panel">
-      <h2>Statistics</h2>
-      <p class="note">Built from your Know It and Need Practice buttons.</p>
+      <h2>📊 Statistics</h2>
+      <p class="note">Uses Know It and Need Practice from the study screen.</p>
       <div id="statsContent"></div>
     </div>
   </section>
